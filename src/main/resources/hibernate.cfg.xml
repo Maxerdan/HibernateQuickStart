@@ -5,21 +5,20 @@
 <hibernate-configuration>
 <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
-    <property name="connection.url">jdbc:postgresql://localhost/lessonhiber</property>
+    <property name="connection.url">jdbc:postgresql://localhost:5433/habrdb</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
 
     <!-- NOTE that after automapping with IDEA property username and password will delete -->
     <!--and will be:  Initial SessionFactory failedorg.hibernate.service.spi.ServiceException: Unable to create requested service-->
-    <property name="connection.username">postgres</property>
-    <property name="connection.password">1</property>
+    <property name="connection.username">habrpguser</property>
+    <property name="connection.password">pgpwd4habr</property>
 
     <!-- DB schema will be updated if needed -->
     <property name="hbm2ddl.auto">create</property>
     <!-- NOTE that after automapping with IDEA property username and password will delete -->
         <mapping class="ru.javastudy.hibernate.dao.Person"/>
-        <mapping class="ru.javastudy.hibernate.dao.ContactHobbyDetailEntity"/>
-        <mapping class="ru.javastudy.hibernate.dao.ContactTelDetailEntity"/>
-        <mapping class="ru.javastudy.hibernate.dao.HobbyEntity"/>
+        <mapping class="ru.javastudy.hibernate.dao.RecordBook"/>
+        <mapping class="ru.javastudy.hibernate.dao.Student"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

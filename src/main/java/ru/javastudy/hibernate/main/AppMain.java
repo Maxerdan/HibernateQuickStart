@@ -27,42 +27,43 @@ public class AppMain {
     static EntityManager emf;
 
     public static void main(String[] args) {
+        //region TASK 5.1
         System.out.println("Hibernate tutorial start");
         Person[] persons = {
                 createPerson("Макс", "Соколов"),
                 createPerson("Мама", "Мия"),
-        createPerson("Папа", "Джонс"),
-        createPerson("Сникерс", "Марс"),
-        createPerson("Уни", "Вер"),
-        createPerson("Виктория", "Секрет"),
-        createPerson("Папа", "Дос"),
-        createPerson("Тест", "Тестович"),
-        createPerson("Джет", "Ли"),
-        createPerson("Джеки", "Чан")
+                createPerson("Папа", "Джонс"),
+                createPerson("Сникерс", "Марс"),
+                createPerson("Уни", "Вер"),
+                createPerson("Виктория", "Секрет"),
+                createPerson("Папа", "Дос"),
+                createPerson("Тест", "Тестович"),
+                createPerson("Джет", "Ли"),
+                createPerson("Джеки", "Чан")
         };
-        for (Person pers : persons)
-        {
-            Session session = HibernateSessionFactory.getSessionFactory().openSession();
-            session.beginTransaction();
-            session.save(pers);
-            session.getTransaction().commit();
-            session.close();
-        }
-
-        for (int i = 0; i< getRandomNumber(0,10); i++)
-        {
-            Session session = HibernateSessionFactory.getSessionFactory().openSession();
-            session.beginTransaction();
-            RecordBook recordBook = new RecordBook();
-            recordBook.setCode(getRandomNumber(0,100));
-            session.save(recordBook);
-            session.getTransaction().commit();
-            session.close();
-        }
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.beginTransaction();
+        for (Person pers : persons)
+        {
+            session.save(pers);
+        }
+        session.getTransaction().commit();
+        //endregion
 
+        //region TASK 5.2
+        session.beginTransaction();
+        for (int i = 0; i< getRandomNumber(0,10); i++)
+        {
+            RecordBook recordBook = new RecordBook();
+            recordBook.setCode(getRandomNumber(0,100));
+            session.save(recordBook);
+        }
+        session.getTransaction().commit();
+        //endregion
+
+        //region TASK 5.3
+        session.beginTransaction();
         List<Person> personsBd = getAllPersons(session);
         List<RecordBook> recordBooks = getAllRecordBooks(session);
         for (int i = 0; i< personsBd.size(); i++)
@@ -78,10 +79,16 @@ public class AppMain {
 
             session.save(student);
         }
+        session.getTransaction().commit();
+        //endregion
 
+        //region TASK 5.4
+        session.beginTransaction();
         List<Person> personsWithA = getAllPersonsWithA(session);
         listPersons(personsWithA);
+        session.getTransaction().commit();
 
+        session.beginTransaction();
         Criteria cr = session.createCriteria(Person.class);
         Criterion firstName = Restrictions.like("firstName", "%а%");
         Criterion lastName = Restrictions.like("lastName", "%а%");
@@ -91,16 +98,34 @@ public class AppMain {
         cr.add( orExp2 );
         List<Person> personsWithACriteria = cr.list();
         listPersons(personsWithACriteria);
+        session.getTransaction().commit();
+        //endregion
 
+        //region TASK 5.5
+        session.beginTransaction();
         List<Student> students = getAllStudentsWithoutRecordBook(session);
         listStudents(students);
+        session.getTransaction().commit();
 
+        session.beginTransaction();
         Criteria cr2 = session.createCriteria(Student.class);
         cr2.add( Restrictions.isNull("recordBook") );
         List<Student> studentsWithoutRecordBook = cr2.list();
         listStudents(studentsWithoutRecordBook);
-
         session.getTransaction().commit();
+        //endregion
+
+        //region TASK 5.6
+        session.beginTransaction();
+        List<Student> allStudents = getAllStudents(session);
+        for (int i = 0; i< allStudents.size(); i++)
+        {
+            session.delete(allStudents.get(i));
+        }
+        listStudents(getAllStudents(session));
+        session.getTransaction().commit();
+        //endregion
+
         session.close();
     }
 
@@ -122,6 +147,10 @@ public class AppMain {
 
     public static List<Person> getAllPersons(Session session) {
         return session.createQuery("SELECT a FROM Person a").list();
+    }
+
+    public static List<Student> getAllStudents(Session session) {
+        return session.createQuery("SELECT a FROM Student a").list();
     }
 
     public static List<Person> getAllPersonsWithA(Session session) {

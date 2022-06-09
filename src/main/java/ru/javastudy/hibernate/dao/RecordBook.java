@@ -1,8 +1,9 @@
 package ru.javastudy.hibernate.dao;
 
+import ru.javastudy.hibernate.dao.listeners.ContactEntityListener;
+
 import javax.persistence.*;
 import java.io.Serializable;
-
 @Entity
 @Table(name = "recordBook")//, schema = "", catalog = "javastudy")
 public class RecordBook implements Serializable{

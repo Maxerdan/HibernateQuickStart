@@ -1,11 +1,12 @@
 package ru.javastudy.hibernate.dao;
 
+import ru.javastudy.hibernate.dao.listeners.ContactEntityListener;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 @Entity
 @Table(name = "person")//, schema = "", catalog = "javastudy")
 public class Person implements Serializable{

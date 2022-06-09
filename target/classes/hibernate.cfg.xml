@@ -5,7 +5,7 @@
 <hibernate-configuration>
 <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
-    <property name="connection.url">jdbc:postgresql://localhost/habrdb</property>
+    <property name="connection.url">jdbc:postgresql://localhost:5433/habrdb</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
 
     <!-- NOTE that after automapping with IDEA property username and password will delete -->

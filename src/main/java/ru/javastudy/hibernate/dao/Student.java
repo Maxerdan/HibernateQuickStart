@@ -1,13 +1,18 @@
 package ru.javastudy.hibernate.dao;
 
+import ru.javastudy.hibernate.dao.listeners.ContactEntityListener;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
+@EntityListeners(ContactEntityListener.class)
 @Entity
 @Table(name = "student")//, schema = "", catalog = "javastudy")
 public class Student implements Serializable{
     private long id;
+
     private RecordBook recordBook;
+
     private Person person;
     private String group;
 
@@ -23,7 +28,7 @@ public class Student implements Serializable{
     }
 
     @Basic
-    @Column(name = "recordBook", nullable = true, insertable = true, updatable = true, length = 60)
+    @ManyToOne(cascade = CascadeType.ALL)
     public RecordBook getRecordBook() {
         return recordBook;
     }
@@ -33,7 +38,7 @@ public class Student implements Serializable{
     }
 
     @Basic
-    @Column(name = "person", nullable = false, insertable = true, updatable = true, length = 60)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Person getPerson() {
         return person;
     }
